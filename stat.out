@@ -1,0 +1,36 @@
+  Файл: /data/mephi-2026
+  Размер: 4096      	Блоков: 16         Блок В/В: 4096   каталог
+Устройство: 8/4	Инода: 262147      Ссылки: 2
+Доступ: (2770/drwxrws---)  Uid: (    0/    root)   Gid: ( 1001/projectdevs)
+Контекст: unconfined_u:object_r:default_t:s0
+Доступ:        2026-10-24 23:56:33.688843896 +0300
+Модифицирован: 2026-10-24 23:58:02.984895986 +0300
+Изменён:       2026-10-24 23:58:02.984895986 +0300
+Создан:        2026-10-24 23:56:33.688843896 +0300
+  Файл: /mephi-web
+  Размер: 4096      	Блоков: 8          Блок В/В: 4096   каталог
+Устройство: 8/17	Инода: 2           Ссылки: 3
+Доступ: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+Контекст: system_u:object_r:httpd_sys_content_t:s0
+Доступ:        2026-10-24 23:44:14.292006215 +0300
+Модифицирован: 2026-10-24 23:46:25.704607017 +0300
+Изменён:       2026-10-24 23:46:37.803751449 +0300
+Создан:        2026-10-24 23:21:50.000000000 +0300
+          unconfined_u:object_r:default_t:s0 /data/mephi-2026
+    system_u:object_r:httpd_sys_content_t:s0 /mephi-web
+unconfined_u:object_r:httpd_sys_content_t:s0 /mephi-web/index.html
+# file: /data/mephi-2026
+# owner: root
+# group: projectdevs
+# flags: -s-
+user::rwx
+group::rwx
+group:curators:r-x
+mask::rwx
+other::---
+default:user::rwx
+default:group::rwx
+default:group:curators:r-x
+default:mask::rwx
+default:other::---
+

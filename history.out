@@ -1,0 +1,178 @@
+    1  ip -br address 
+    2  nmcli device status
+    3  sudo nmcli device connect enp0s3
+    4  ping -c 4 8.8.8.8
+    5  sudo dnf install -y openssh-server
+    6  systemstl enable --now sshd
+    7  systemctl enable --now sshd
+    8  systemctl is-active sshd
+    9  hostnamectl
+   10  cat /etc/os-release
+   11  ip -br address
+   12  lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINTS
+   13  getenforce
+   14  ping -c 4 8.8.8.8
+   15  poweroff
+   16  lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINTS
+   17  fdisk -l /dev/sdb
+   18  fdisk /dev/sdb
+   19  lsblk /dev/sdb
+   20  mkfs.ext4 -L MEPHI_WEB /dev/sdb1
+   21  mkdir -p /mephi-web
+   22  cp -a /etc/fstab /etc/fstab.before-mephi
+   23  echo 'LABEL=MEPHI_WEB /mephi-web ext4 defaults 0 2' >> /etc/fstab
+   24  tail -n 5 /etc/fstab
+   25  mount -a
+   26  findmnt /mephi-web
+   27  df -h /mephi-web
+   28  grep 'LABEL=MEPHI_WEB' /etc/fstab
+   29  lsblk -f
+   30  findmnt /mephi-web
+   31  dnf update -y
+   32  dnf install -y nginx libcap-ng-utils dnf-plugins-core
+   33  dnf install -y acl policycoreutils-python-utils curl git
+   34  rpm -q nginx libcap-ng-utils dnf-plugins-core
+   35  dnf download --help
+   36  dnf download --destdir=/tmp tcpdump
+   37  ls -lh /tmp/tcpdump*.rpm
+   38  rpm -Uvh --replacepkgs /tmp/tcpdump*.rpm
+   39  rpm -Uvh --replacepkgs /tmp/tcpdump-4.99.5-1.red80.x86_64.rpm
+   40  rpm -q tcpdump
+   41  command -v setcap
+   42  command -v getcap
+   43  rpm -Uvh --replacepkgs /tmp/tcpdump*.rpm
+   44  rm -f /tmp/tcpdump-4.99.5-1.red80.i686.rpm
+   45  rpm -q tcpdump
+   46  ls -lh /tmp/tcpdump-4.99.5-1.red80.x86_64.rpm
+   47  rpm -q nginx libcap-ng-utils dnf-plugins-core tcpdump
+   48  dnf install -y nginx libcap-ng-utils dnf-plugins-core
+   49  systemctl enable --now nginx
+   50  systemctl is-enabled nginx
+   51  systemctl is-active nginx
+   52  curl -I http://localhost/
+   53  nginx -T 2>&1 | grep -nE '^# configuration file|^[[:space:]]*listen[[:space:]]|^[[:space:]]*root[[:space:]]|^[[:space:]]*include[[:space:]]'
+   54  cp -a /etc/nginx/nginx.conf /etc/nginx/nginx.conf.before-mephi
+   55  sed -i 's#/usr/share/nginx/html#/mephi-web#g' /etc/nginx/nginx.conf
+   56  grep -n 'root ' /etc/nginx/nginx.conf
+   57  nginx -t
+   58  systemctl reload nginx
+   59  getenforce
+   60  semanage fcontext -a -t httpd_sys_content_t '/mephi-web(/.*)?'
+   61  restorecon -Rv /mephi-web
+   62   restorecon -Rv /mephi-web
+   63  Relabeled /mephi-web from system_u:object_r:unlabeled_t:s0 to system_u:object_r:httpd_sys_content_t:s0
+   64  printf 'Hello from Student: %s\n' '265875' > /mephi-web/index.html
+   65  chown root:root /mephi-web /mephi-web/index.html
+   66  chmod 755 /mephi-web
+   67  chmod 644 /mephi-web/index.html
+   68  restorecon -v /mephi-web/index.html
+   69  nginx -t
+   70  systemctl reload nginx
+   71  curl http://localhost/
+   72  ls -Zd /mephi-web /mephi-web/index.html
+   73  getenforce
+   74  getent passwd user1 user2 user3 curator1 curator2
+   75  getent group curators
+   76  getent group 4444
+   77  getent group projectdevs
+   78  groupadd projectdevs
+   79  groupadd -g 4444 curators
+   80  getent group projectdevs
+   81  getent group curators
+   82  useradd -m -u 5501 -g projectdevs -s /bin/bash user1
+   83  useradd -m -u 5502 -g projectdevs -s /bin/bash user2
+   84  useradd -m -u 5503 -g projectdevs -s /bin/bash user3
+   85  useradd -m -g curators -s /bin/bash curator1
+   86  useradd -m -g curators -s /bin/bash curator2
+   87  passwd user1
+   88  qwerty1qwerty
+   89  passwd user1
+   90  passwd user2
+   91  passwd user3
+   92  passwd curator1
+   93  passwd curator2
+   94  id user1
+   95  id user2
+   96  id user3
+   97  id curator1
+   98  id curator2
+   99  mkdir -p /data/mephi-2026
+  100  chown root:projectdevs /data/mephi-2026
+  101  chmod 2770 /data/mephi-2026
+  102  setfacl -m u::rwx,g::rwx,g:curators:rx,m::rwx,o::--- /data/mephi-2026
+  103  setfacl -d -m u::rwx,g::rwx,g:curators:rx,m::rwx,o::--- /data/mephi-2026
+  104  getfacl -p /data/mephi-2026
+  105  stat -c '%A %U:%G %n' /data/mephi-2026
+  106  runuser -u user1 -- touch /data/mephi-2026/test.txt
+  107  runuser -u user2 -- sh -c 'echo "team test" >> /data/mephi-2026/test.txt'
+  108  runuser -u curator1 -- cat /data/mephi-2026/test.txt
+  109  runuser -u curator1 -- sh -c 'echo "should fail" >> /data/mephi-2026/test.txt'
+  110  rm -f /data/mephi-2026/test.txt
+  111  ls -l /usr/sbin/tcpdump
+  112  setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+  113  getcap /usr/sbin/tcpdump
+  114  runuser -u user1 -- tcpdump -ni lo -c 1
+  115  cp -a /etc/login.defs /etc/login.defs.before-mephi
+  116  vi /etc/login.defs
+  117  grep -E '^[[:space:]]*PASS_MAX_DAYS' /etc/login.defs
+  118  chage -M 90 user1
+  119  chage -M 90 user2
+  120  chage -M 90 user3
+  121  chage -M 90 curator1
+  122  chage -M 90 curator2
+  123  chage -l user2
+  124  vi /etc/security/pwquality.conf
+  125  grep -nE '^[[:space:]]*minlen[[:space:]]*=' /etc/security/pwquality.conf
+  126  vi /etc/security/pwquality.conf
+  127  grep -n 'minlen' /etc/security/pwquality.conf
+  128  printf '\n# MEPHI project: minimum password length\nminlen = 12\n' >> /etc/security/pwquality.conf
+  129  grep -nE '^[[:space:]]*minlen[[:space:]]*=' /etc/security/pwquality.conf
+  130  grep -R -nE 'pam_pwquality\.so|pam_cracklib\.so' /etc/pam.d
+  131  passwd curator1
+  132  passwd curator2
+  133  chage -l user1
+  134  chage -l user2
+  135  chage -l user3
+  136  chage -l curator1
+  137  chage -l curator2
+  138  for u in user1 user2 user3 curator1 curator2; do     echo "=== $u ===";     chage -l "$u" | grep -E 'Максимальное количество дней|Maximum number of days'; done
+  139  printf 'curator1\ncurator2\n' > /etc/security/console-deny
+  140  chown root:root /etc/security/console-deny
+  141  chmod 600 /etc/security/console-deny
+  142  cat /etc/security/console-deny
+  143  cp -an /etc/pam.d/login /etc/pam.d/login.before-mephi
+  144  if ! grep -q 'file=/etc/security/console-deny' /etc/pam.d/login; then     sed -i '/^#%PAM-1.0/a auth required pam_listfile.so item=user sense=deny file=/etc/security/console-deny onerr=fail' /etc/pam.d/login; fi
+  145  grep -n 'console-deny' /etc/pam.d/login
+  146  cat /etc/security/console-deny
+  147  stat -c '%U:%G %a %n' /etc/security/console-deny
+  148  journalctl -b --since "15 minutes ago" --no-pager | grep -Ei 'pam_listfile|curator1|login incorrect'
+  149  grep -Ei 'pam_listfile|curator1|login incorrect' /var/log/secure | tail -n 20
+  150  nginx -t
+  151  systemctl enable --now nginx
+  152  systemctl enable --now sshd
+  153  systemctl daemon-reload
+  154  mount -a
+  155  reboot
+  156  hostnamectl --static
+  157  findmnt /mephi-web
+  158  systemctl is-enabled nginx
+  159  systemctl is-active nginx
+  160  getenforce
+  161  getcap /usr/sbin/tcpdump
+  162  curl http://localhost/
+  163  getfacl -p /data/mephi-2026
+  164  mkdir -p /home/artem/mephi-session-project-2026
+  165  cd /home/artem/mephi-session-project-2026
+  166  chown artem:artem /home/artem/mephi-session-project-2026
+  167  ping -c 4 8.8.8.8 > ping.out 2>&1
+  168  dnf history > dnf.out
+  169  journalctl -u nginx -b --no-pager > journalctl.out
+  170  getcap /usr/sbin/tcpdump > getcap.out
+  171  getenforce > getenforce.out
+  172  stat /data/mephi-2026 > stat.out
+  173  stat /mephi-web >> stat.out
+  174  ls -Zd /data/mephi-2026 /mephi-web /mephi-web/index.html >> stat.out 2>&1
+  175  getfacl -p /data/mephi-2026 >> stat.out
+  176  curl http://localhost/ > curl.out
+  177  history -a
+  178  history > history.out
